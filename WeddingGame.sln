@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeddingGame", "WeddingGame\WeddingGame\WeddingGame.csproj", "{C4441D91-EB95-43DD-A651-F7D63A08A80E}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "WeddingGameContent", "WeddingGame\WeddingGameContent\WeddingGameContent.contentproj", "{BC1C3E01-EE57-49D4-A8EE-C2D43F6CC637}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Windows Phone = Debug|Windows Phone
+		Release|Windows Phone = Release|Windows Phone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4441D91-EB95-43DD-A651-F7D63A08A80E}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{C4441D91-EB95-43DD-A651-F7D63A08A80E}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
+		{C4441D91-EB95-43DD-A651-F7D63A08A80E}.Debug|Windows Phone.Deploy.0 = Debug|Windows Phone
+		{C4441D91-EB95-43DD-A651-F7D63A08A80E}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{C4441D91-EB95-43DD-A651-F7D63A08A80E}.Release|Windows Phone.Build.0 = Release|Windows Phone
+		{C4441D91-EB95-43DD-A651-F7D63A08A80E}.Release|Windows Phone.Deploy.0 = Release|Windows Phone
+		{BC1C3E01-EE57-49D4-A8EE-C2D43F6CC637}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{BC1C3E01-EE57-49D4-A8EE-C2D43F6CC637}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
