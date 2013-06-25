@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using WeddingGame.Engine;
 using WeddingGame.Levels;
 
@@ -29,6 +30,8 @@ namespace WeddingGame
 
          // Extend battery life under lock.
          InactiveSleepTime = TimeSpan.FromSeconds( 1 );
+
+         TouchPanel.EnabledGestures = GestureType.Tap | GestureType.Flick | GestureType.HorizontalDrag | GestureType.VerticalDrag;
       }
 
       /// <summary>

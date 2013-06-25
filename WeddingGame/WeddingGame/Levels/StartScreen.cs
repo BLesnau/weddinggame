@@ -10,13 +10,13 @@ namespace WeddingGame.Levels
 
       public override void Update( GameTime gameTime )
       {
-
+         VPLevelManager.SetLevel( typeof( MainGame ) );
       }
 
       public override void Draw( GameTime gameTime )
       {
-         DrawingHelper.Draw( _background, 
-            new Rectangle( 0, 0, DrawingHelper.Graphics.PreferredBackBufferWidth, DrawingHelper.Graphics.PreferredBackBufferHeight ), 
+         DrawingHelper.Draw( _background,
+            new Rectangle( 0, 0, DrawingHelper.Graphics.PreferredBackBufferWidth, DrawingHelper.Graphics.PreferredBackBufferHeight ),
             Color.White );
       }
 

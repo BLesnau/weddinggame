@@ -45,22 +45,22 @@ namespace WeddingGame.Engine
 
       public static void Update( GameTime gameTime )
       {
-         _levels.ForEach( x => x.Update( gameTime ) );
+         CurrentLevel.Update( gameTime );
       }
 
       public static void Draw( GameTime gameTime )
       {
-         _levels.ForEach( x => x.Draw( gameTime ) );
+         CurrentLevel.Draw( gameTime );
       }
 
       public static void LoadContent()
       {
-         _levels.ForEach( x => x.LoadContent() );
+         CurrentLevel.LoadContent();
       }
 
       public static void UnloadContent()
       {
-         _levels.ForEach( x => x.UnloadContent() );
+         CurrentLevel.UnloadContent();
       }
    }
 }
