@@ -26,14 +26,14 @@ namespace WeddingGame
 
       private HeadState _headState = HeadState.Normal;
 
-      private TimeSpan _shakeTime = TimeSpan.FromSeconds( 2 );
+      private TimeSpan _shakeTime = TimeSpan.FromSeconds( 1 );
       private TimeSpan _shakeStart = TimeSpan.Zero;
 
       private Vector2 _shakeSpot = Vector2.Zero;
       private TimeSpan _timeSinceShake = TimeSpan.Zero;
-      private TimeSpan _timeBetweenShake = TimeSpan.FromSeconds( .1 );
+      private TimeSpan _timeBetweenShake = TimeSpan.FromSeconds( .05 );
       private bool _shook;
-      private float _shakeMoveAmount = 25.0f;
+      private float _shakeMoveAmount = 5.0f;
 
       public Head( string normalImage, string openImage, Vector2 normalPos, Vector2 openPos )
       {
@@ -77,23 +77,22 @@ namespace WeddingGame
             }
             else
             {
-               DrawingHelper.Draw( _open, new Rectangle( (int) _openPos.X, (int) _openPos.Y, _open.Width, _open.Height ), Color.White );
+               if ( ( gameTime.TotalGameTime - _timeSinceShake ) >= _timeBetweenShake )
+               {
+                  _shook = !_shook;
+                  _timeSinceShake = gameTime.TotalGameTime;
+               }
 
-               //if ( ( gameTime.TotalGameTime - _timeSinceShake ) >= _timeBetweenShake )
-               //{
-               //   if ( _shook )
-               //   {
-               //      DrawingHelper.Draw( _open, new Rectangle( (int) _openPos.X, (int) _openPos.Y, _open.Width, _open.Height ), Color.White );
-               //   }
-               //   else
-               //   {
-               //      DrawingHelper.Draw( _open, new Rectangle( (int) _openPos.X, (int) ( _openPos.Y - _shakeMoveAmount ), _open.Width, _open.Height ),
-               //                          Color.White );
-               //   }
-
-               //   _shook = !_shook;
-               //   _timeSinceShake = gameTime.TotalGameTime;
-               //}
+               if ( _shook )
+               {
+                  DrawingHelper.Draw( _open, new Rectangle( (int) _openPos.X, (int) _openPos.Y, _open.Width, _open.Height ), Color.White );
+               }
+               else
+               {
+                  DrawingHelper.Draw( _open, 
+                                       new Rectangle( (int) _openPos.X, (int) ( _openPos.Y - _shakeMoveAmount ), _open.Width, _open.Height ),
+                                      Color.White );
+               }
             }
          }
          else if ( _headState == HeadState.OpenForever )
