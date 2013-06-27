@@ -47,12 +47,17 @@ namespace WeddingGame.Levels
          {
             _leftBarrier = DrawingHelper.Graphics.PreferredBackBufferWidth / 3.0;
             _rightBarrier = _leftBarrier * 2;
+            var waveTime = 30;
 
             _waveManager = new WaveManager();
             _waveManager.AddWaves( new Wave[]
-            {
-               new Wave("Wave 1", 10, 2, 2, false, false),
-               new Wave("Wave 2", 30, 2, 2, true, true)
+            {               
+               new Wave("Wave 1", waveTime, 3, 3, false, false),           
+               new Wave("Wave 2", waveTime, 2, 2, true, false),
+               new Wave("Wave 3", waveTime, 1.5, 1.5, true, true),
+               new Wave("Wave 4", waveTime, 1.0, 1.0, false, false),
+               new Wave("Wave 5", waveTime, 1.0, 1.0, true, false),
+               new Wave("Wave 6", waveTime, 1.0, 1.0, true, true),
             } );
 
             _waveManager.WaveComplete += WaveComplete;
@@ -304,13 +309,13 @@ namespace WeddingGame.Levels
          _dunkHead = null;
          _background = null;
 
-         _background = DrawingHelper.GetTexture( "background" );
+         _background = DrawingHelper.GetTexture( "background_nofaces" );
 
          if ( _brettHead == null )
          {
-            _brettHead = new Head( "BrettNormal", "BrettOpen", new Vector2( 425, 120 ), new Vector2( 425, 120 ) );
-            _laynaHead = new Head( "LaynaNormal", "LaynaOpen", new Vector2( 310, 120 ), new Vector2( 290, 125 ) );
-            _dunkHead = new Head( "DunkNormal", "DunkOpen", new Vector2( 360, 50 ), new Vector2( 330, 50 ) );
+            _brettHead = new Head( "BrettNormal", "BrettOpen", new Vector2( 430, 115 ), new Vector2( 425, 120 ) );
+            _laynaHead = new Head( "LaynaNormal", "LaynaOpen", new Vector2( 300, 120 ), new Vector2( 290, 125 ) );
+            _dunkHead = new Head( "DunkNormal", "DunkOpen", new Vector2( 363, 45 ), new Vector2( 330, 50 ) );
 
             _brettHead.LoadContent();
             _laynaHead.LoadContent();
