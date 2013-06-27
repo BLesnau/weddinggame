@@ -25,8 +25,34 @@ namespace WeddingGame.Engine
 
       private GestureType _previousAction = GestureType.None;
 
+      private WaveManager _waveManager = null;
+      private double _leftBarrier = 0;
+      private double _rightBarrier = 0;
+
       public override void Update( GameTime gameTime )
       {
+         if ( _waveManager == null )
+         {
+            _leftBarrier = DrawingHelper.Graphics.PreferredBackBufferWidth / 3.0;
+            _rightBarrier = _leftBarrier * 2;
+
+            _waveManager = new WaveManager();
+            _waveManager.AddWaves( new Wave[]
+            {
+               new Wave("Wave 1", 30, 1, 2, false),
+               new Wave("Wave 2", 30, .5, 1, true)
+            } );
+
+            _waveManager.WaveComplete += WaveComplete;
+            _waveManager.GameComplete += GameComplete;
+
+            _waveManager.Start();
+         }
+         else
+         {
+            _waveManager.Update( gameTime );
+         }
+
          if ( /*_previousGesture == GestureType.Flick ||*/ ( ( _lastGestureTime + _gestureTimeout ) < gameTime.TotalGameTime ) )
          {
             _previousGesture = GestureType.None;
@@ -55,6 +81,8 @@ namespace WeddingGame.Engine
 
                   _previousAction = gesture.GestureType;
 
+                  _waveManager.ActionOccurred( GetLocation( _tapLocation ), ActionType.Tap );
+
                   break;
                }
                case GestureType.Flick:
@@ -64,11 +92,17 @@ namespace WeddingGame.Engine
                      case GestureType.VerticalDrag:
                      {
                         _previousAction = _previousGesture;
+
+                        _waveManager.ActionOccurred( GetLocation( _startVerticalDrag ), _directionVerticalDrag > 0 ? ActionType.FlickDown : ActionType.FlickUp );
+
                         break;
                      }
                      case GestureType.HorizontalDrag:
                      {
                         _previousAction = _previousGesture;
+
+                        _waveManager.ActionOccurred( GetLocation( _startHorizontalDrag ), _directionHorizontalDrag > 0 ? ActionType.FlickRight : ActionType.FlickLeft );
+
                         break;
                      }
                   }
@@ -162,6 +196,11 @@ namespace WeddingGame.Engine
 
       public override void Draw( GameTime gameTime )
       {
+         if ( _waveManager != null )
+         {
+            _waveManager.Draw( gameTime );
+         }
+
          DrawingHelper.Graphics.GraphicsDevice.Clear( Color.DarkSlateGray );
 
          if ( _previousAction == GestureType.VerticalDrag )
@@ -190,6 +229,36 @@ namespace WeddingGame.Engine
 
       public override void UnloadContent()
       {
+      }
+
+      private void WaveComplete( string waveName )
+      {
+         waveName.GetHashCode();
+      }
+
+      private void GameComplete( bool won, double accuracy )
+      {
+         won.GetHashCode();
+      }
+
+      private ActionLocation GetLocation( Vector2 loc )
+      {
+         if ( loc.X <= _leftBarrier )
+         {
+            return ActionLocation.Left;
+         }
+
+         if ( loc.X > _leftBarrier && loc.X <= _rightBarrier )
+         {
+            return ActionLocation.Middle;
+         }
+
+         if ( loc.X > _rightBarrier && loc.X <= DrawingHelper.Graphics.PreferredBackBufferWidth )
+         {
+            return ActionLocation.Right;
+         }
+
+         return ActionLocation.Left;
       }
 
       private void ResetHorizontalDrag()
