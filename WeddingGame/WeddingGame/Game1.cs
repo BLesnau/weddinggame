@@ -59,10 +59,13 @@ namespace WeddingGame
          DrawingHelper.Init( spriteBatch, graphics, Content );
 
          var startScreen = new StartScreen();
+         var instructions = new InstructionsScreen();
          var mainGame = new MainGame();
+         var lost= new LostScreen();
+         var won = new WonScreen();
          VPLevelManager.Init( new List<VPLevel>
          {
-            startScreen, mainGame
+            startScreen, instructions, mainGame, lost, won
          } );
          VPLevelManager.LoadContent();
       }

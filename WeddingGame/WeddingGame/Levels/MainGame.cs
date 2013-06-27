@@ -1,8 +1,9 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input.Touch;
+using WeddingGame.Engine;
 
-namespace WeddingGame.Engine
+namespace WeddingGame.Levels
 {
    public class MainGame : VPLevel
    {
@@ -29,6 +30,9 @@ namespace WeddingGame.Engine
       private double _leftBarrier = 0;
       private double _rightBarrier = 0;
 
+      private bool _lost = false;
+      private bool _won = false;
+
       public override void Update( GameTime gameTime )
       {
          if ( _waveManager == null )
@@ -39,8 +43,8 @@ namespace WeddingGame.Engine
             _waveManager = new WaveManager();
             _waveManager.AddWaves( new Wave[]
             {
-               new Wave("Wave 1", 30, 1, 2, false),
-               new Wave("Wave 2", 30, .5, 1, true)
+               new Wave("Wave 1", 10, 2, 2, false),
+               new Wave("Wave 2", 30, 2, 2, true)
             } );
 
             _waveManager.WaveComplete += WaveComplete;
@@ -196,6 +200,15 @@ namespace WeddingGame.Engine
 
       public override void Draw( GameTime gameTime )
       {
+         if ( _won )
+         {
+            VPLevelManager.SetLevel( typeof(  WonScreen) );
+         }
+         if ( _lost )
+         {
+            VPLevelManager.SetLevel( typeof( LostScreen ) );
+         }
+
          if ( _waveManager != null )
          {
             _waveManager.Draw( gameTime );
@@ -238,7 +251,14 @@ namespace WeddingGame.Engine
 
       private void GameComplete( bool won, double accuracy )
       {
-         won.GetHashCode();
+         if ( won )
+         {
+            _won = true;
+         }
+         else
+         {
+            _lost = true;
+         }
       }
 
       private ActionLocation GetLocation( Vector2 loc )

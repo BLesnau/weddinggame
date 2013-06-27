@@ -54,10 +54,11 @@ namespace WeddingGame
       {
          if ( _waves.Count > 0 )
          {
+            _state = GameState.BetweenMove;
+
             _waveStarted = gameTime.TotalGameTime;
             _currentWave = _waves.Dequeue();
             SetTimerForNextAction( _currentWave.TimeBetweenActions, gameTime );
-            _state = GameState.BetweenMove;
          }
          else
          {
@@ -92,6 +93,12 @@ namespace WeddingGame
                _currentAction.ActionOccurred( _actionOccurred.Value.ActionLocation, _actionOccurred.Value.ActionType );
                if ( _currentAction.ActionCompleted() )
                {
+                  if ( ( gameTime.TotalGameTime - _waveStarted ) >= _currentWave.Length )
+                  {
+                     WaveComplete( _currentWave.Name );
+                     StartNextWave( gameTime );
+                  }
+
                   _state = GameState.BetweenMove;
                   SetTimerForNextAction( _currentWave.TimeBetweenActions, gameTime );
                }
@@ -102,10 +109,11 @@ namespace WeddingGame
 
          if ( _currentWave != null )
          {
-            if ( ( gameTime.TotalGameTime - _waveStarted ) >= _currentWave.Length )
-            {
-               StartNextWave( gameTime );
-            }
+            //if ( ( gameTime.TotalGameTime - _waveStarted ) >= _currentWave.Length )
+            //{
+            //   WaveComplete( _currentWave.Name );
+            //   StartNextWave( gameTime );
+            //}
 
             if ( ( gameTime.TotalGameTime - _timerStarted ) >= _timeToWait )
             {
@@ -135,7 +143,8 @@ namespace WeddingGame
       {
          _actionOccurred = new ActionObj
          {
-            ActionLocation = location, ActionType = type
+            ActionLocation = location,
+            ActionType = type
          };
       }
 

@@ -65,10 +65,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engine\DrawingHelper.cs" />
-    <Compile Include="Engine\MainGame.cs" />
+    <Compile Include="Levels\InstructionsScreen.cs" />
+    <Compile Include="Levels\LostScreen.cs" />
+    <Compile Include="Levels\MainGame.cs" />
     <Compile Include="Engine\VPLevel.cs" />
     <Compile Include="Engine\VPLevelManager.cs" />
     <Compile Include="Levels\StartScreen.cs" />
+    <Compile Include="Levels\WonScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wave.cs" />
     <Compile Include="WaveAction.cs" />

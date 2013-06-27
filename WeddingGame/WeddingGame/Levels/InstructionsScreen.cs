@@ -5,7 +5,7 @@ using WeddingGame.Engine;
 
 namespace WeddingGame.Levels
 {
-   public class StartScreen : VPLevel
+   public class InstructionsScreen : VPLevel
    {
       private Texture2D _background;
 
@@ -17,7 +17,7 @@ namespace WeddingGame.Levels
 
             if ( gesture.GestureType == GestureType.Tap || gesture.GestureType == GestureType.DoubleTap )
             {
-               VPLevelManager.SetLevel( typeof( InstructionsScreen ) );
+               VPLevelManager.SetLevel( typeof( MainGame ) );
             }
          }
       }
@@ -31,7 +31,7 @@ namespace WeddingGame.Levels
 
       public override void LoadContent()
       {
-         _background = DrawingHelper.GetTexture( "Something" );
+         _background = DrawingHelper.GetTexture( "Instructions" );
       }
 
       public override void UnloadContent()
