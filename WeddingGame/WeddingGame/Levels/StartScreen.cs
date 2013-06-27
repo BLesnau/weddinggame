@@ -27,6 +27,9 @@ namespace WeddingGame.Levels
          DrawingHelper.Draw( _background,
             new Rectangle( 0, 0, DrawingHelper.Graphics.PreferredBackBufferWidth, DrawingHelper.Graphics.PreferredBackBufferHeight ),
             Color.White );
+
+         DrawingHelper.DrawText( "Say Your Vows!!!", 25, 25, Color.White, 1.75f );
+         DrawingHelper.DrawText( "(tap to continue)", 85, 70, Color.White, 1.0f );
       }
 
       public override void LoadContent()

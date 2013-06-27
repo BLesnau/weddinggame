@@ -8,6 +8,9 @@ namespace WeddingGame.Levels
    public class WonScreen : VPLevel
    {
       private Texture2D _background;
+      private Head _brettHead = null;
+      private Head _laynaHead = null;
+      private Head _dunkHead = null;
 
       public override void Update( GameTime gameTime )
       {
@@ -27,11 +30,30 @@ namespace WeddingGame.Levels
          DrawingHelper.Draw( _background,
             new Rectangle( 0, 0, DrawingHelper.Graphics.PreferredBackBufferWidth, DrawingHelper.Graphics.PreferredBackBufferHeight ),
             Color.White );
+
+         _dunkHead.Draw( gameTime );
+         _brettHead.Draw( gameTime );
+         _laynaHead.Draw( gameTime );
       }
 
       public override void LoadContent()
       {
-         _background = DrawingHelper.GetTexture( "Won" );
+         _background = DrawingHelper.GetTexture( "background_nofaces" );
+
+         if ( _brettHead == null )
+         {
+            _brettHead = new Head( "BrettNormal", "BrettOpen", new Vector2( 430, 115 ), new Vector2( 425, 120 ) );
+            _laynaHead = new Head( "LaynaNormal", "LaynaOpen", new Vector2( 300, 120 ), new Vector2( 290, 125 ) );
+            _dunkHead = new Head( "DunkNormal", "DunkOpen", new Vector2( 363, 45 ), new Vector2( 330, 50 ) );
+
+            _brettHead.LoadContent();
+            _laynaHead.LoadContent();
+            _dunkHead.LoadContent();
+
+            _brettHead.ShakeForever();
+            _laynaHead.ShakeForever();
+            _dunkHead.ShakeForever();
+         }
       }
 
       public override void UnloadContent()

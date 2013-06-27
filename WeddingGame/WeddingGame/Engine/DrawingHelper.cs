@@ -40,14 +40,14 @@ namespace WeddingGame.Engine
          SpriteBatch.End();
       }
 
-      public static void DrawText( string text, float x, float y, Color color )
+      public static void DrawText( string text, float x, float y, Color color, float scale )
       {
-         DrawText( text, new Vector2( x, y ), color );
+         DrawText( text, new Vector2( x, y ), color, scale );
       }
 
-      public static void DrawText( string text, Vector2 location, Color color )
+      public static void DrawText( string text, Vector2 location, Color color, float scale )
       {
-         SpriteBatch.DrawString( font, text, location, color );
+         SpriteBatch.DrawString( font, text, location, color, 0, Vector2.Zero, scale, SpriteEffects.None, 0 );
       }
    }
 }

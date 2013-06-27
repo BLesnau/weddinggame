@@ -109,6 +109,15 @@ namespace WeddingGame
          _shakeStart = TimeSpan.Zero;
       }
 
+      public void ShakeForever()
+      {
+         _shakeTime = TimeSpan.FromDays( 100 );
+         _headState = HeadState.Open;
+         _timeSinceShake = TimeSpan.Zero;
+         _shook = false;
+         _shakeStart = TimeSpan.Zero;
+      }
+
       public void LoadContent()
       {
          _normal = DrawingHelper.GetTexture( _normalImageName );
