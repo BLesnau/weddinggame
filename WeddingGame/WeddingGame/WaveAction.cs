@@ -222,5 +222,10 @@ namespace WeddingGame
       {
          return _actions.Count == 0;
       }
+
+      public int ActionCount()
+      {
+         return _actions.Count;
+      }
    }
 }

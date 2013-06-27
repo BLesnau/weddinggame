@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Engine\DrawingHelper.cs" />
+    <Compile Include="Head.cs" />
     <Compile Include="Levels\InstructionsScreen.cs" />
     <Compile Include="Levels\LostScreen.cs" />
     <Compile Include="Levels\MainGame.cs" />

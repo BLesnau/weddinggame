@@ -31,7 +31,7 @@ namespace WeddingGame.Levels
 
       public override void LoadContent()
       {
-         _background = DrawingHelper.GetTexture( "Something" );
+         _background = DrawingHelper.GetTexture( "background" );
       }
 
       public override void UnloadContent()

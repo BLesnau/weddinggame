@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 using WeddingGame.Engine;
 
@@ -33,6 +34,13 @@ namespace WeddingGame.Levels
       private bool _lost = false;
       private bool _won = false;
 
+      private Head _brettHead = null;
+      private Head _laynaHead = null;
+      private Head _dunkHead = null;
+      private Texture2D _background = null;
+
+      ActionLocation? _actionLocation = null;
+
       public override void Update( GameTime gameTime )
       {
          if ( _waveManager == null )
@@ -54,7 +62,14 @@ namespace WeddingGame.Levels
          }
          else
          {
-            _waveManager.Update( gameTime );
+            if ( _waveManager.Update( gameTime ) )
+            {
+               if ( _actionLocation != null )
+               {
+                  ShakeHead( _actionLocation.Value );
+                  _actionLocation = null;
+               }
+            }
          }
 
          if ( /*_previousGesture == GestureType.Flick ||*/ ( ( _lastGestureTime + _gestureTimeout ) < gameTime.TotalGameTime ) )
@@ -87,6 +102,8 @@ namespace WeddingGame.Levels
 
                   _waveManager.ActionOccurred( GetLocation( _tapLocation ), ActionType.Tap );
 
+                  _actionLocation = GetLocation( _tapLocation );
+
                   break;
                }
                case GestureType.Flick:
@@ -99,6 +116,8 @@ namespace WeddingGame.Levels
 
                         _waveManager.ActionOccurred( GetLocation( _startVerticalDrag ), _directionVerticalDrag > 0 ? ActionType.FlickDown : ActionType.FlickUp );
 
+                        _actionLocation = GetLocation( _startVerticalDrag );
+
                         break;
                      }
                      case GestureType.HorizontalDrag:
@@ -106,6 +125,8 @@ namespace WeddingGame.Levels
                         _previousAction = _previousGesture;
 
                         _waveManager.ActionOccurred( GetLocation( _startHorizontalDrag ), _directionHorizontalDrag > 0 ? ActionType.FlickRight : ActionType.FlickLeft );
+
+                        _actionLocation = GetLocation( _startHorizontalDrag );
 
                         break;
                      }
@@ -198,46 +219,103 @@ namespace WeddingGame.Levels
          }
       }
 
+      private void ShakeHead( ActionLocation loc )
+      {
+         if ( loc == ActionLocation.Left )
+         {
+            _laynaHead.Shake();
+         }
+         else if ( loc == ActionLocation.Middle )
+         {
+            _dunkHead.Shake();
+         }
+         else if ( loc == ActionLocation.Right )
+         {
+            _brettHead.Shake();
+         }
+      }
+
       public override void Draw( GameTime gameTime )
       {
          if ( _won )
          {
-            VPLevelManager.SetLevel( typeof(  WonScreen) );
+            VPLevelManager.SetLevel( typeof( WonScreen ) );
          }
          if ( _lost )
          {
             VPLevelManager.SetLevel( typeof( LostScreen ) );
          }
 
+         DrawingHelper.Graphics.GraphicsDevice.Clear( Color.DarkSlateGray );
+
+         DrawingHelper.Draw( _background,
+            new Rectangle( 0, 0, DrawingHelper.Graphics.PreferredBackBufferWidth, DrawingHelper.Graphics.PreferredBackBufferHeight ),
+            Color.White );
+
+         _dunkHead.Draw( gameTime );
+         _brettHead.Draw( gameTime );
+         _laynaHead.Draw( gameTime );
+
          if ( _waveManager != null )
          {
             _waveManager.Draw( gameTime );
          }
 
-         DrawingHelper.Graphics.GraphicsDevice.Clear( Color.DarkSlateGray );
-
-         if ( _previousAction == GestureType.VerticalDrag )
-         {
-            var debugText = "Action: {0}\nStart: {1},{2}\nEnd: {3},{4}\nLength: {5}\nDirection: {6}";
-            DrawingHelper.DrawText( string.Format( debugText, "Flick Vertical", _startVerticalDrag.X, _startVerticalDrag.Y, _endVerticalDrag.X, _endVerticalDrag.Y, _lengthVerticalDrag, _directionVerticalDrag ),
-                                    10, 10, Color.White );
-         }
-         else if ( _previousAction == GestureType.HorizontalDrag )
-         {
-            var debugText = "Action: {0}\nStart: {1},{2}\nEnd: {3},{4}\nLength: {5}\nDirection: {6}";
-            DrawingHelper.DrawText( string.Format( debugText, "Flick Horizontal", _startHorizontalDrag.X, _startHorizontalDrag.Y, _endHorizontalDrag.X, _endHorizontalDrag.Y, _lengthHorizontalDrag, _directionHorizontalDrag ),
-                                    10, 10, Color.White );
-         }
-         else if ( _previousAction == GestureType.Tap )
-         {
-            var debugText = "Action: {0}\nLocation: {1},{2}";
-            DrawingHelper.DrawText( string.Format( debugText, "Tap", _tapLocation.X, _tapLocation.Y ),
-                                    10, 10, Color.White );
-         }
+         //if ( _previousAction == GestureType.VerticalDrag )
+         //{
+         //   var debugText = "Action: {0}\nStart: {1},{2}\nEnd: {3},{4}\nLength: {5}\nDirection: {6}";
+         //   DrawingHelper.DrawText( string.Format( debugText, "Flick Vertical", _startVerticalDrag.X, _startVerticalDrag.Y, _endVerticalDrag.X, _endVerticalDrag.Y, _lengthVerticalDrag, _directionVerticalDrag ),
+         //                           10, 10, Color.White );
+         //}
+         //else if ( _previousAction == GestureType.HorizontalDrag )
+         //{
+         //   var debugText = "Action: {0}\nStart: {1},{2}\nEnd: {3},{4}\nLength: {5}\nDirection: {6}";
+         //   DrawingHelper.DrawText( string.Format( debugText, "Flick Horizontal", _startHorizontalDrag.X, _startHorizontalDrag.Y, _endHorizontalDrag.X, _endHorizontalDrag.Y, _lengthHorizontalDrag, _directionHorizontalDrag ),
+         //                           10, 10, Color.White );
+         //}
+         //else if ( _previousAction == GestureType.Tap )
+         //{
+         //   var debugText = "Action: {0}\nLocation: {1},{2}";
+         //   DrawingHelper.DrawText( string.Format( debugText, "Tap", _tapLocation.X, _tapLocation.Y ),
+         //                           10, 10, Color.White );
+         //}
       }
 
       public override void LoadContent()
       {
+         _previousGesture = GestureType.None;
+         _tapLocation = Vector2.Zero;
+         _startVerticalDrag = Vector2.Zero;
+         _endVerticalDrag = Vector2.Zero;
+         _lengthVerticalDrag = 0;
+         _directionVerticalDrag = 0;
+         _startHorizontalDrag = Vector2.Zero;
+         _endHorizontalDrag = Vector2.Zero;
+         _lengthHorizontalDrag = 0;
+         _directionHorizontalDrag = 0;
+         _previousAction = GestureType.None;
+         _waveManager = null;
+         _leftBarrier = 0;
+         _rightBarrier = 0;
+         _lost = false;
+         _won = false;
+         _brettHead = null;
+         _laynaHead = null;
+         _dunkHead = null;
+         _background = null;
+
+         _background = DrawingHelper.GetTexture( "background" );
+
+         if ( _brettHead == null )
+         {
+            _brettHead = new Head( "BrettNormal", "BrettOpen", new Vector2( 425, 120 ), new Vector2( 425, 120 ) );
+            _laynaHead = new Head( "LaynaNormal", "LaynaOpen", new Vector2( 310, 120 ), new Vector2( 290, 125 ) );
+            _dunkHead = new Head( "DunkNormal", "DunkOpen", new Vector2( 360, 50 ), new Vector2( 330, 50 ) );
+
+            _brettHead.LoadContent();
+            _laynaHead.LoadContent();
+            _dunkHead.LoadContent();
+         }
       }
 
       public override void UnloadContent()

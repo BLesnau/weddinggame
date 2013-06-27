@@ -73,11 +73,11 @@ namespace WeddingGame
          _timerStarted = gameTime.TotalGameTime;
       }
 
-      public virtual void Update( GameTime gameTime )
+      public virtual bool Update( GameTime gameTime )
       {
          if ( !_started )
          {
-            return;
+            return false;
          }
 
          if ( !_running )
@@ -86,11 +86,18 @@ namespace WeddingGame
             StartNextWave( gameTime );
          }
 
+         var actionDone = false;
          if ( _actionOccurred != null )
          {
             if ( _state == GameState.WaitingForMove )
             {
+               var initialCount = _currentAction.ActionCount();
                _currentAction.ActionOccurred( _actionOccurred.Value.ActionLocation, _actionOccurred.Value.ActionType );
+               if ( initialCount != _currentAction.ActionCount() )
+               {
+                  actionDone = true;
+               }
+
                if ( _currentAction.ActionCompleted() )
                {
                   if ( ( gameTime.TotalGameTime - _waveStarted ) >= _currentWave.Length )
@@ -137,6 +144,8 @@ namespace WeddingGame
                }
             }
          }
+
+         return actionDone;
       }
 
       public void ActionOccurred( ActionLocation location, ActionType type )
