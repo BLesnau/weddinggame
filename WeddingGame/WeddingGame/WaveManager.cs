@@ -28,8 +28,9 @@ namespace WeddingGame
 
       private GameState _state;
       private TimeSpan _timeToWait;
-      private TimeSpan _timeBetweenMoves;
       private TimeSpan _timerStarted;
+      private WaveAction _currentAction;
+      private TimeSpan _waveStarted;
 
       public void Start()
       {
@@ -52,12 +53,14 @@ namespace WeddingGame
       {
          if ( _waves.Count > 0 )
          {
+            _waveStarted = gameTime.TotalGameTime;
             _currentWave = _waves.Dequeue();
             SetTimerForNextAction( _currentWave.TimeBetweenActions, gameTime );
             _state = GameState.BetweenMove;
          }
          else
          {
+            _state = GameState.Done;
             GameComplete( true, 1.0 );
          }
       }
@@ -83,24 +86,46 @@ namespace WeddingGame
 
          if ( _currentWave != null )
          {
-            if ( ( gameTime.TotalGameTime - _timerStarted ) >= _timeToWait )
+            if ( ( gameTime.TotalGameTime - _waveStarted ) >= _currentWave.Length )
             {
-               switch ( _state )
-               {
-                  case GameState.BetweenMove:
-                  {
+               StartNextWave( gameTime );
+            }
 
-                     break;
-                  }
-                  case GameState.WaitingForMove:
+            if ( _state == GameState.WaitingForMove && FinishedAction() )
+            {
+               _state = GameState.BetweenMove;
+               SetTimerForNextAction( _currentWave.TimeBetweenActions, gameTime );
+            }
+            else
+            {
+               if ( ( gameTime.TotalGameTime - _timerStarted ) >= _timeToWait )
+               {
+                  switch ( _state )
                   {
-                     _state = GameState.Done;
-                     GameComplete( false, 1.0 );
-                     break;
+                     case GameState.BetweenMove:
+                     {
+                        _state = GameState.WaitingForMove;
+                        _currentAction = _currentWave.GetAction();
+                        SetTimerForNextAction( _currentWave.TimeToWait, gameTime );
+
+                        break;
+                     }
+                     case GameState.WaitingForMove:
+                     {
+                        _state = GameState.Done;
+                        GameComplete( false, 1.0 );
+
+                        break;
+                     }
                   }
                }
             }
          }
+      }
+
+      private bool FinishedAction()
+      {
+         return false;
       }
 
       public virtual void Draw( GameTime gameTime )

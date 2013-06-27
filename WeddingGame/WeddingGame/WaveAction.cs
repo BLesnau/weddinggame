@@ -29,6 +29,7 @@ namespace WeddingGame
    public class WaveAction
    {
       private List<ActionObj> _actions = new List<ActionObj>();
+      private static Random _random = new Random();
 
       public void AddAction()
       {
@@ -36,8 +37,7 @@ namespace WeddingGame
          while ( !addedValue )
          {
             var values = GetValues<ActionLocation>();
-            var random = new Random();
-            var randomLocation = (ActionLocation) values.GetValue( random.Next( values.Length ) );
+            var randomLocation = (ActionLocation) values.GetValue( _random.Next( values.Length ) );
 
             foreach ( var a in _actions )
             {
@@ -48,7 +48,7 @@ namespace WeddingGame
             }
 
             var values2 = GetValues<ActionType>();
-            var randomAction = (ActionType) values2.GetValue( random.Next( values2.Length ) );
+            var randomAction = (ActionType) values2.GetValue( _random.Next( values2.Length ) );
 
             _actions.Add( new ActionObj { ActionLocation = randomLocation, ActionType = randomAction } );
 

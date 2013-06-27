@@ -11,6 +11,8 @@ namespace WeddingGame
       public TimeSpan TimeToWait = TimeSpan.Zero;
       public bool CanShowTwoActions = false;
 
+      private static Random _random = new Random();
+
       public Wave( string name, double lengthSeconds, double secondsBetweenActions, double secondsToWait, bool canDoTwoActions )
       {
          Name = name;
@@ -34,6 +36,19 @@ namespace WeddingGame
 
       public virtual void UnloadContent()
       {
+      }
+
+      public WaveAction GetAction()
+      {
+         var action = new WaveAction();
+         action.AddAction();
+
+         if ( CanShowTwoActions && _random.Next( 2 ) > 0 )
+         {
+            action.AddAction();
+         }
+
+         return action;
       }
    }
 }
