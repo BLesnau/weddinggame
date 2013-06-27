@@ -116,12 +116,6 @@ namespace WeddingGame
 
          if ( _currentWave != null )
          {
-            //if ( ( gameTime.TotalGameTime - _waveStarted ) >= _currentWave.Length )
-            //{
-            //   WaveComplete( _currentWave.Name );
-            //   StartNextWave( gameTime );
-            //}
-
             if ( ( gameTime.TotalGameTime - _timerStarted ) >= _timeToWait )
             {
                switch ( _state )
@@ -130,6 +124,7 @@ namespace WeddingGame
                   {
                      _state = GameState.WaitingForMove;
                      _currentAction = _currentWave.GetAction();
+                     _currentAction.LoadContent();
                      SetTimerForNextAction( _currentWave.TimeToWait, gameTime );
 
                      break;

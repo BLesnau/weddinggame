@@ -51,8 +51,8 @@ namespace WeddingGame.Levels
             _waveManager = new WaveManager();
             _waveManager.AddWaves( new Wave[]
             {
-               new Wave("Wave 1", 10, 2, 2, false),
-               new Wave("Wave 2", 30, 2, 2, true)
+               new Wave("Wave 1", 10, 2, 2, false, false),
+               new Wave("Wave 2", 30, 2, 2, true, true)
             } );
 
             _waveManager.WaveComplete += WaveComplete;
