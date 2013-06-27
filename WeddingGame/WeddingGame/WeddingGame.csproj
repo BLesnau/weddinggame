@@ -64,6 +64,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Counter.cs" />
     <Compile Include="Engine\DrawingHelper.cs" />
     <Compile Include="Head.cs" />
     <Compile Include="Levels\InstructionsScreen.cs" />

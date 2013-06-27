@@ -34,6 +34,10 @@ namespace WeddingGame.Levels
          _dunkHead.Draw( gameTime );
          _brettHead.Draw( gameTime );
          _laynaHead.Draw( gameTime );
+
+         DrawingHelper.DrawText( "You finished", 40, 25, Color.White, 1.75f );
+         DrawingHelper.DrawText( "your vows!!!", 40, 60, Color.White, 1.75f );
+         DrawingHelper.DrawText( "(tap to continue)", 57, 110, Color.White, 1.0f );
       }
 
       public override void LoadContent()

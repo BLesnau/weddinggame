@@ -69,6 +69,8 @@ namespace WeddingGame.Levels
          {
             if ( _waveManager.Update( gameTime ) )
             {
+               Counter.Add();
+
                if ( _actionLocation != null )
                {
                   ShakeHead( _actionLocation.Value );
@@ -288,6 +290,8 @@ namespace WeddingGame.Levels
 
       public override void LoadContent()
       {
+         Counter.Reset();
+
          _previousGesture = GestureType.None;
          _tapLocation = Vector2.Zero;
          _startVerticalDrag = Vector2.Zero;
