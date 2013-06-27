@@ -31,6 +31,7 @@ namespace WeddingGame
       private TimeSpan _timerStarted;
       private WaveAction _currentAction;
       private TimeSpan _waveStarted;
+      private ActionObj? _actionOccurred = null;
 
       public void Start()
       {
@@ -84,6 +85,21 @@ namespace WeddingGame
             StartNextWave( gameTime );
          }
 
+         if ( _actionOccurred != null )
+         {
+            if ( _state == GameState.WaitingForMove )
+            {
+               _currentAction.ActionOccurred( _actionOccurred.Value.ActionLocation, _actionOccurred.Value.ActionType );
+               if ( _currentAction.ActionCompleted() )
+               {
+                  _state = GameState.BetweenMove;
+                  SetTimerForNextAction( _currentWave.TimeBetweenActions, gameTime );
+               }
+            }
+
+            _actionOccurred = null;
+         }
+
          if ( _currentWave != null )
          {
             if ( ( gameTime.TotalGameTime - _waveStarted ) >= _currentWave.Length )
@@ -91,41 +107,36 @@ namespace WeddingGame
                StartNextWave( gameTime );
             }
 
-            if ( _state == GameState.WaitingForMove && FinishedAction() )
+            if ( ( gameTime.TotalGameTime - _timerStarted ) >= _timeToWait )
             {
-               _state = GameState.BetweenMove;
-               SetTimerForNextAction( _currentWave.TimeBetweenActions, gameTime );
-            }
-            else
-            {
-               if ( ( gameTime.TotalGameTime - _timerStarted ) >= _timeToWait )
+               switch ( _state )
                {
-                  switch ( _state )
+                  case GameState.BetweenMove:
                   {
-                     case GameState.BetweenMove:
-                     {
-                        _state = GameState.WaitingForMove;
-                        _currentAction = _currentWave.GetAction();
-                        SetTimerForNextAction( _currentWave.TimeToWait, gameTime );
+                     _state = GameState.WaitingForMove;
+                     _currentAction = _currentWave.GetAction();
+                     SetTimerForNextAction( _currentWave.TimeToWait, gameTime );
 
-                        break;
-                     }
-                     case GameState.WaitingForMove:
-                     {
-                        _state = GameState.Done;
-                        GameComplete( false, 1.0 );
+                     break;
+                  }
+                  case GameState.WaitingForMove:
+                  {
+                     _state = GameState.Done;
+                     GameComplete( false, 1.0 );
 
-                        break;
-                     }
+                     break;
                   }
                }
             }
          }
       }
 
-      private bool FinishedAction()
+      public void ActionOccurred( ActionLocation location, ActionType type )
       {
-         return false;
+         _actionOccurred = new ActionObj
+         {
+            ActionLocation = location, ActionType = type
+         };
       }
 
       public virtual void Draw( GameTime gameTime )
@@ -133,6 +144,16 @@ namespace WeddingGame
          if ( !_running )
          {
             return;
+         }
+
+         switch ( _state )
+         {
+            case GameState.WaitingForMove:
+            {
+               _currentAction.Draw( gameTime );
+
+               break;
+            }
          }
       }
 

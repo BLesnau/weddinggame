@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Microsoft.Xna.Framework;
+using WeddingGame.Engine;
 
 namespace WeddingGame
 {
@@ -56,6 +58,124 @@ namespace WeddingGame
          }
       }
 
+      public virtual void Draw( GameTime gameTime )
+      {
+         var textColor = Color.White;
+         float middleH = DrawingHelper.Graphics.PreferredBackBufferHeight / 2.0f;
+
+         foreach ( var a in _actions )
+         {
+            switch ( a.ActionLocation )
+            {
+               case ActionLocation.Left:
+               {
+                  var location = new Vector2( 5, middleH );
+
+                  switch ( a.ActionType )
+                  {
+                     case ActionType.FlickUp:
+                     {
+                        DrawingHelper.DrawText( "FlickUp", location, textColor );
+                        break;
+                     }
+                     case ActionType.FlickDown:
+                     {
+                        DrawingHelper.DrawText( "FlickDown", location, textColor );
+                        break;
+                     }
+                     case ActionType.FlickLeft:
+                     {
+                        DrawingHelper.DrawText( "FlickLeft", location, textColor );
+                        break;
+                     }
+                     case ActionType.FlickRight:
+                     {
+                        DrawingHelper.DrawText( "FlickRight", location, textColor );
+                        break;
+                     }
+                     case ActionType.Tap:
+                     {
+                        DrawingHelper.DrawText( "Tap", location, textColor );
+                        break;
+                     }
+                  }
+
+                  break;
+               }
+               case ActionLocation.Middle:
+               {
+                  var location = new Vector2( DrawingHelper.Graphics.PreferredBackBufferWidth / 2.0f, middleH );
+
+                  switch ( a.ActionType )
+                  {
+                     case ActionType.FlickUp:
+                     {
+                        DrawingHelper.DrawText( "FlickUp", location, textColor );
+                        break;
+                     }
+                     case ActionType.FlickDown:
+                     {
+                        DrawingHelper.DrawText( "FlickDown", location, textColor );
+                        break;
+                     }
+                     case ActionType.FlickLeft:
+                     {
+                        DrawingHelper.DrawText( "FlickLeft", location, textColor );
+                        break;
+                     }
+                     case ActionType.FlickRight:
+                     {
+                        DrawingHelper.DrawText( "FlickRight", location, textColor );
+                        break;
+                     }
+                     case ActionType.Tap:
+                     {
+                        DrawingHelper.DrawText( "Tap", location, textColor );
+                        break;
+                     }
+                  }
+
+                  break;
+               }
+               case ActionLocation.Right:
+               {
+                  var location = new Vector2( DrawingHelper.Graphics.PreferredBackBufferWidth - 100, middleH );
+
+                  switch ( a.ActionType )
+                  {
+                     case ActionType.FlickUp:
+                     {
+                        DrawingHelper.DrawText( "FlickUp", location, textColor );
+                        break;
+                     }
+                     case ActionType.FlickDown:
+                     {
+                        DrawingHelper.DrawText( "FlickDown", location, textColor );
+                        break;
+                     }
+                     case ActionType.FlickLeft:
+                     {
+                        DrawingHelper.DrawText( "FlickLeft", location, textColor );
+                        break;
+                     }
+                     case ActionType.FlickRight:
+                     {
+                        DrawingHelper.DrawText( "FlickRight", location, textColor );
+                        break;
+                     }
+                     case ActionType.Tap:
+                     {
+                        DrawingHelper.DrawText( "Tap", location, textColor );
+                        break;
+                     }
+                  }
+
+                  break;
+               }
+            }
+         }
+      }
+
       private static T[] GetValues<T>()
       {
          Type enumType = typeof( T );
@@ -78,6 +198,29 @@ namespace WeddingGame
             }
 
          return arr;
+      }
+
+      public void ActionOccurred( ActionLocation location, ActionType type )
+      {
+         ActionObj? action = null;
+         foreach ( var a in _actions )
+         {
+            if ( a.ActionLocation == location && a.ActionType == type )
+            {
+               action = a;
+               break;
+            }
+         }
+
+         if ( action != null )
+         {
+            _actions.Remove( action.Value );
+         }
+      }
+
+      public bool ActionCompleted()
+      {
+         return _actions.Count == 0;
       }
    }
 }
