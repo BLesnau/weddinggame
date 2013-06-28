@@ -74,6 +74,9 @@ namespace WeddingGame
             if ( ( gameTime.TotalGameTime - _shakeStart ) >= _shakeTime )
             {
                _headState = HeadState.Normal;
+               DrawingHelper.Draw( _normal,
+               new Rectangle( (int) _normalPos.X, (int) _normalPos.Y, _normal.Width, _normal.Height ),
+               Color.White );
             }
             else
             {
