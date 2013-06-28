@@ -47,17 +47,18 @@ namespace WeddingGame.Levels
          {
             _leftBarrier = DrawingHelper.Graphics.PreferredBackBufferWidth / 3.0;
             _rightBarrier = _leftBarrier * 2;
-            var waveTime = 30;
+            var waveTime = 20;
 
             _waveManager = new WaveManager();
             _waveManager.AddWaves( new Wave[]
-            {               
+            {             
                new Wave("Wave 1", waveTime, 3, 3, false, false),           
                new Wave("Wave 2", waveTime, 2, 2, true, false),
                new Wave("Wave 3", waveTime, 1.5, 1.5, true, true),
                new Wave("Wave 4", waveTime, 1.0, 1.0, false, false),
                new Wave("Wave 5", waveTime, 1.0, 1.0, true, false),
                new Wave("Wave 6", waveTime, 1.0, 1.0, true, true),
+               new Wave("Wave 4", waveTime, 0.75, 0.75, false, false),
             } );
 
             _waveManager.WaveComplete += WaveComplete;
