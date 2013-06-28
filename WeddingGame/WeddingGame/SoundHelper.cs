@@ -38,6 +38,7 @@ namespace WeddingGame
       {
          _themeIntance = _theme.CreateInstance();
          _themeIntance.IsLooped = true;
+         _themeIntance.Volume = .8f;
          _themeIntance.Play();
       }
 
