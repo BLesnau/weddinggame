@@ -61,10 +61,13 @@ namespace WeddingGame.Levels
             _laynaHead.ShakeForever();
             _dunkHead.ShakeForever();
          }
+
+         SoundHelper.LoopVows();
       }
 
       public override void UnloadContent()
       {
+         SoundHelper.UnloopVows();
       }
    }
 }

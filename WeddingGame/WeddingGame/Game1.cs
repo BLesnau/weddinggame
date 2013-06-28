@@ -68,6 +68,9 @@ namespace WeddingGame
             startScreen, instructions, mainGame, lost, won
          } );
          VPLevelManager.LoadContent();
+
+         SoundHelper.LoadContent();
+         SoundHelper.PlayTheme();
       }
 
       /// <summary>

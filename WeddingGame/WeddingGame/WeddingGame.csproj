@@ -75,6 +75,7 @@
     <Compile Include="Levels\StartScreen.cs" />
     <Compile Include="Levels\WonScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SoundHelper.cs" />
     <Compile Include="Wave.cs" />
     <Compile Include="WaveAction.cs" />
     <Compile Include="WaveManager.cs" />

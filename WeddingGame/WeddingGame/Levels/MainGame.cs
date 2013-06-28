@@ -74,6 +74,7 @@ namespace WeddingGame.Levels
                if ( _actionLocation != null )
                {
                   ShakeHead( _actionLocation.Value );
+                  SoundHelper.PlayVow( _actionLocation.Value );
                   _actionLocation = null;
                }
             }
